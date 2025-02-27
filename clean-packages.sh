@@ -5,12 +5,22 @@ then
     yarn global add depcheck
 fi
 
-# Запуск depcheck
+# Запуск depcheck и сохранение вывода во временный файл
 echo "Проверка неиспользуемых пакетов..."
-depcheck
+depcheck --json > depcheck_output.json
 
-# Вывод инструкции по удалению неиспользуемых пакетов
+# Проверка, что файл не пустой
+if [ ! -s depcheck_output.json ]; then
+    echo "Ошибка: depcheck не вернул результатов"
+    rm depcheck_output.json
+    exit 1
+fi
+
+# Извлечение неиспользуемых зависимостей из JSON-вывода
 echo "Для чистки от ненужных пакетов выполните команды:"
-depcheck | grep -oP 'Unused dependencies[\s\S]+?\K@[a-z-]+' | while read -r package ; do
+jq -r '.dependencies[]' depcheck_output.json | while read -r package; do
     echo "yarn remove $package"
 done
+
+# Удаление временного файла
+rm depcheck_output.json
