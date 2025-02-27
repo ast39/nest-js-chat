@@ -20,6 +20,8 @@ async function bootstrap() {
 	const SWAGGER_PREFIX = API_PREFIX + SWAGGER_PATH;
 	const APP_URL = process.env.APP_URL || 'http://localhost';
 
+	console.log(APP_PORT, API_PREFIX, SWAGGER_PATH, SWAGGER_PREFIX, APP_URL);
+
 	// Устанавливаем глобальный префикс для всех маршрутов
 	app.setGlobalPrefix(API_PREFIX);
 
@@ -51,8 +53,8 @@ async function bootstrap() {
 		.setVersion(process.env.APP_VERSION || '1.0.0')
 		.addBearerAuth()
 		.setContact('Alexandr St.', 'https://t.me/ASt39', 'alexandr.statut@gmail.com')
-		.setExternalDoc('API Docs', `${APP_URL}:${APP_PORT}${API_PREFIX}/docs-json`)
-		.addServer(`${APP_URL}:${APP_PORT}`, 'API Server')
+		.setExternalDoc('API Docs', `${APP_URL}${API_PREFIX}/docs-json`)
+		.addServer(`${APP_URL}`, 'API Server')
 		.build();
 
 	const document = SwaggerModule.createDocument(app, docs);
@@ -69,7 +71,7 @@ async function bootstrap() {
 	// Запускаем приложение
 	await app.listen(APP_PORT, () => {
 		console.log(`Приложение запущено на порту ${APP_PORT}`);
-		console.log(`Swagger документация доступна по адресу: ${APP_URL}:${APP_PORT}${SWAGGER_PREFIX}`);
+		console.log(`Swagger документация доступна по адресу: ${APP_URL}${SWAGGER_PREFIX}`);
 	});
 }
 
