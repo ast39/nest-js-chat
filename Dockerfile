@@ -15,7 +15,7 @@ COPY . .
 RUN yarn install
 
 # Генерация Prisma клиентских файлов
-RUN npx prisma generate
+RUN yarn prisma generate
 
 # Запуск тестов на этапе сборки
 # RUN yarn test
@@ -37,5 +37,5 @@ COPY --from=builder /app/dist/ ./tmp-dist
 COPY --from=builder /app/prisma/ ./prisma
 
 # Выполнение миграций и запуск приложения в одном шаге
-CMD ["sh", "-c", "npx prisma migrate deploy && node ./dist/src/main.js"]
+CMD ["sh", "-c", "yarn prisma migrate deploy && node ./dist/src/main.js"]
 

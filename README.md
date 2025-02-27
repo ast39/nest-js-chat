@@ -22,43 +22,40 @@ cp .env.example .env
 
 ```
 # Запуск проекта локально со всеми миграциями
-npm run start:dev
+yarn start:dev
 
 # Запуск сидов
-npm run prisma:seed
+yarn prisma:seed
 
 # Запуск проекта на сервере со всеми миграциями
-npm run start:prod
+yarn start:prod
 
 # Тестовый токен
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNiYWY1MzljLTAzOTYtNGM2My04YjdjLWJhMDFmYWY1MzJhNyIsIm5hbWUiOiJEZW1vIHVzZXIgMSIsImF2YXRhciI6bnVsbCwiaWF0IjoxNzE5NDk5NjU4LCJleHAiOjE3MTk1ODYwNTh9.bJtT6NOIs-S7YYwOgJHUfQSG4BUulcrrpZmNwH5VqKo
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkRlbW8gVXNlciIsImlhdCI6MTcyODU3OTkzNywiZXhwIjoxODg2MjU5OTM3fQ.8oLSrmoD-dDBMqKpZQNSC8wiPSFEbuJopHF1on_aAx4
 ```
 
 ### Управление Prisma ORM
 
 ```
 # Обновление Prisma Client по схеме  
-npx prisma generate
+yarn prisma generate
 
-# Создание миграции
-npx prisma migrate dev --name init
+# Создание миграции без выполнения
+yarn prisma migrate dev --name init
 
-# Обновление базы данных по файлам миграции в режиме разработки
-npx prisma migrate dev
-
-# Обновление базы данных по неисполненным миграциям в прод. режиме
-npx prisma migrate deploy
+# Обновление базы данных по неисполненным миграциям
+yarn prisma migrate deploy
 
 # Запуск сидов, заполняющих таблицы тестовыми данными
-npx prisma db seed
+yarn prisma db seed
 
 # Устранение проблем с миграциями базы данных
-npx prisma migrate resolve
+yarn prisma migrate resolve
 ```
 
 ### О проекте
 
-Микро сервис, созданный в рамках экосистемы "Взнания"
+Микро сервис, созданный в рамках экосистемы "Телепост"
 
 ### Авторы
 
@@ -66,7 +63,7 @@ npx prisma migrate resolve
 - Telegram - [@ASt39](https://t.me/ASt39)
 
 ### Лицензия
-Взнания
+Телепост
 
 ### Модуль дампов БД
 
@@ -75,9 +72,9 @@ npx prisma migrate resolve
 
 - dumps
 - - postgres
-- - - 2024-04-21T11:00:00_pmp_postgres.sql
+- - - 2025-02-27T11:00:00_tp_postgres.sql
 - - - ...
-- - - 2024-04-23T11:00:00_pmp_postgres.sql
+- - - 2025-02-25T11:00:00_tp_postgres.sql
 - .env
 - db_dumper.sh
 
@@ -86,8 +83,9 @@ npx prisma migrate resolve
 ```dotenv
 ### Container
 
-POSTGRES_CONTAINER=pmp_postgres
-POSTGRES_DUMP_PATH=dumps/postgres
+API_CONTAINER=tp_chat_service_api
+POSTGRES_CONTAINER=tp_chat_service_pgsql
+POSTGRES_DUMP_PATH=dumps/pgsql
 
 
 ### Database
@@ -98,41 +96,3 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=qwerty
 POSTGRES_DB=postgres
 ```
-
----
-#### Настроить права на файловую систему
-```bash
-# Восстановить структуру каталогов
-mkdir dumps
-cd dumps
-mkdir postgres
- 
-# права на выполнение скрипта
-chmod +x db_dumper.sh
-
-# права на выполнение скрипта восстановления
-chmod +x db_recoverer.sh
-
-# права на сохранение дампов
-chmod +w -R dumps/postgres
-```
-
----
-Команды
-```bash
-# Запуск докера
-docker-compose up -d
-
-# Создание дампа
-./db_dumper.sh
-
-# Восстановление из дампа
-./db_recoverer.sh {DUMP_NAME}
-
-# Пример восстановления:
-./db_recoverer.sh 2024-04-23T13-52-14_tp_postgres.sql
-
-# Заархивировать накопишиеся логи
-./archivator.sh
-```
----

@@ -1,42 +1,31 @@
-version: '3.9'
-
 services:
 
   postgres:
-    image: postgres:14.1-alpine
-    env_file:
-      - ./.env
+    image: postgres:15
     container_name: ${POSTGRES_CONTAINER}
+    restart: always
+    env_file:
+      - .env
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_DB: ${POSTGRES_NAME}
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
-    restart: always
-    networks:
-      - tp_chat_network
 
   api:
     container_name: ${API_CONTAINER}
+    restart: always
     build:
       dockerfile: Dockerfile
     ports:
-      - "${APP_PORT}:${APP_PORT}"
-    environment:
-      - TZ=Europe/Moscow
+      - "${APP_PORT}:3000"
     env_file:
-      - ./.env
+      - .env
     depends_on:
       - postgres
-    networks:
-      - tp_chat_network
 
 volumes:
   pg_data: { }
-
-networks:
-  tp_chat_network:
