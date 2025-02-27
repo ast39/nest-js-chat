@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Чаты
+model Chat {
+  id        Int          @id @default(autoincrement()) @map("id") @db.Integer()
+  orderId   Int          @map("order_id") @db.Integer()
+  sellerId  Int          @map("seller_id") @db.Integer()
+  buyerId   Int          @map("buyer_id") @db.Integer()
+  title     String?      @map("title") @db.VarChar(128)
+  status    EChatStatus? @default(ACTIVE) @map("status")
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  isDeleted Boolean      @default(false) @map("is_deleted") @db.Boolean()
+
+  messages Message[] @relation("ChatMessages")
+
+  @@unique([orderId, sellerId, buyerId])
+  @@index([isDeleted])
+  @@map("chats")
+}
+
+// Сообщения чата
+model Message {
+  id        Int             @id @default(autoincrement()) @map("id") @db.Integer()
+  replyToId Int?            @map("reply_to") @db.Integer()
+  chatId    Int             @map("chat_id") @db.Integer()
+  userId    Int             @map("user_id") @db.Integer()
+  userType  EUserType       @default(BUYER) @map("user_type") // Тип пользователя (покупатель/продавец/админ)
+  content   String?         @map("content") @db.Text()
+  isRead    Boolean         @default(false) @map("is_read") @db.Boolean()
+  status    EMessageStatus? @default(ACTIVE) @map("status")
+  createdAt DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  isDeleted Boolean         @default(false) @map("is_deleted") @db.Boolean()
+
+  chat    Chat?    @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
+  replyTo Message? @relation("MessageReplies", fields: [replyToId], references: [id], onDelete: Cascade)
+
+  replies Message[]        @relation("MessageReplies")
+  history MessageVersion[] @relation("MessageHistory")
+
+  @@index([isDeleted])
+  @@map("messages")
+}
+
+// Версии сообщений чата
+model MessageVersion {
+  id        Int      @id @default(autoincrement()) @map("id") @db.Integer()
+  messageId Int      @map("message_id") @db.Integer()
+  content   String   @map("content") @db.Text()
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  message Message @relation("MessageHistory", fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@map("message_versions")
+}
+
+// Перечисления
+enum EChatStatus {
+  ACTIVE  @map("active")
+  BLOCKED @map("blocked")
+
+  @@map("chat_status_enum")
+}
+
+enum EMessageStatus {
+  ACTIVE  @map("active")
+  BLOCKED @map("blocked")
+
+  @@map("message_status_enum")
+}
+
+// Тип пользователя в чате
+enum EUserType {
+  BUYER  @map("buyer")
+  SELLER @map("seller")
+  ADMIN  @map("admin")
+
+  @@map("user_type_enum")
+}
