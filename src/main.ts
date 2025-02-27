@@ -20,8 +20,6 @@ async function bootstrap() {
 	const SWAGGER_PREFIX = API_PREFIX + SWAGGER_PATH;
 	const APP_URL = process.env.APP_URL || 'http://localhost';
 
-	console.log(APP_PORT, API_PREFIX, SWAGGER_PATH, SWAGGER_PREFIX, APP_URL);
-
 	// Устанавливаем глобальный префикс для всех маршрутов
 	app.setGlobalPrefix(API_PREFIX);
 
