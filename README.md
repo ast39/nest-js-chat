@@ -11,16 +11,35 @@ https://gitlab.versh.store/bodymap/services/message
 ### Установка
 
 ```
-# Установка пакетов
-yarn install
-
 # Копирование шаблона для env настроек проекта 
 cp .env.example .env
 ```
 
-### Запуск приложения
+### Запуск приложения в Docker
 
 ```
+# Запуск контейнеров проекта в первый раз
+docker-compose up -d --build
+
+# Запуск контейнеров проекта в последующие разы
+docker-compose up -d
+
+# Остановка контейнеров проекта
+docker-compose down
+
+# Просмотр запущенных контейнеров
+docker ps
+
+# Открытие консоли приложения (CONTAINER_ID берем из docker ps)
+docker logs {CONTAINER_ID}
+```
+
+### Запуск приложения без Docker-а
+
+```
+# Установка пакетов
+yarn install
+
 # Запуск проекта локально со всеми миграциями
 yarn start:dev
 
@@ -29,8 +48,10 @@ yarn prisma:seed
 
 # Запуск проекта на сервере со всеми миграциями
 yarn start:prod
+```
 
 # Тестовый токен
+```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkRlbW8gVXNlciIsImlhdCI6MTcyODU3OTkzNywiZXhwIjoxODg2MjU5OTM3fQ.8oLSrmoD-dDBMqKpZQNSC8wiPSFEbuJopHF1on_aAx4
 ```
 
@@ -65,34 +86,24 @@ yarn prisma migrate resolve
 ### Лицензия
 Телепост
 
-### Модуль дампов БД
-
----
-#### Структура:
-
-- dumps
-- - postgres
-- - - 2025-02-27T11:00:00_tp_postgres.sql
-- - - ...
-- - - 2025-02-25T11:00:00_tp_postgres.sql
-- .env
-- db_dumper.sh
-
 ---
 #### Файл .env
 ```dotenv
 ### Container
-
+# Названия контейнеров в докере
 API_CONTAINER=tp_chat_service_api
 POSTGRES_CONTAINER=tp_chat_service_pgsql
-POSTGRES_DUMP_PATH=dumps/pgsql
-
 
 ### Database
-
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
+# Креды подключения к БД
+POSTGRES_HOST=postgres
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=qwerty
-POSTGRES_DB=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=tp_chat
+POSTGRES_PORT=5432
+
+### OUTER_PORTS
+# Внешние порты для подключения к сервисам внутри контейнера
+OUTER_APP_PORT=3030
+OUTER_POSTGRES_PORT=5435
 ```
