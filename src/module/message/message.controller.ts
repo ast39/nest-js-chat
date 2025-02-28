@@ -7,7 +7,7 @@ import { MessageDto } from './dto/message.dto';
 import { MessageService } from './message.service';
 import { User } from '../../common/decorators/user.decorator';
 
-@ApiTags('App :: Сообщения')
+@ApiTags('Сообщения')
 @Controller('app/message')
 @ApiBearerAuth()
 export class MessageController {

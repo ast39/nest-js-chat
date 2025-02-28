@@ -8,7 +8,7 @@ import { PaginationInterface } from '../../common/interfaces/pagination.interfac
 import { MessageVersionFilterDto } from './dto/message-version.filter.dto';
 import { AdminGuard } from '../../common/guards/admin.guard';
 
-@ApiTags('Admin :: История сообщений')
+@ApiTags('История сообщений')
 @Controller('message-version')
 @UseGuards(AdminGuard)
 @ApiBearerAuth()

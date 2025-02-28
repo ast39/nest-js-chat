@@ -1,5 +1,5 @@
 import { Body, Controller, Param, Get, Post, Put, Delete, Query, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiBearerAuth, ApiExcludeEndpoint, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DefaultResponse } from '../../common/dto/default.response.dto';
 import { ChatDto } from './dto/chat.dto';
 import { CurrentUrl } from '../../common/decorators/url.decorator';
@@ -55,7 +55,6 @@ export class ChatController {
 		return this.chatService.getChat(chatId, userId, isAdmin);
 	}
 
-	@ApiExcludeEndpoint()
 	@HttpCode(HttpStatus.CREATED)
 	@Post()
 	@ApiOperation({
@@ -72,7 +71,6 @@ export class ChatController {
 		return this.chatService.createChat(body, userId);
 	}
 
-	@ApiExcludeEndpoint()
 	@Put(':chat_id')
 	@ApiOperation({
 		summary: 'Редактирование чата',

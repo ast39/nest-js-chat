@@ -61,15 +61,15 @@ async function bootstrap() {
 			persistAuthorization: true,
 			docExpansion: 'none',
 			filter: true,
-			tagsSorter: 'alpha',
-			operationsSorter: 'method',
+			tagsSorter: 'method',
+			operationsSorter: 'alpha',
 		},
 	});
 
 	// Запускаем приложение
 	await app.listen(APP_PORT, () => {
 		console.log(`Приложение запущено на порту ${APP_PORT}`);
-		console.log(`Swagger документация доступна по адресу: ${APP_URL}${SWAGGER_PREFIX}`);
+		console.log(`Swagger документация доступна по адресу: ${APP_URL}:${APP_PORT}${SWAGGER_PREFIX}`);
 	});
 }
 
