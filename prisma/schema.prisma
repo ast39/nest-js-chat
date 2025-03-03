@@ -10,9 +10,9 @@ datasource db {
 // Чаты
 model Chat {
   id            Int          @id @default(autoincrement()) @map("id") @db.Integer()
-  publicationId Int          @map("order_id") @db.Integer()
-  publisherId   Int          @map("seller_id") @db.Integer()
-  advertiserId  Int          @map("buyer_id") @db.Integer()
+  publicationId Int          @map("publication_id") @db.Integer()
+  publisherId   Int          @map("publisher_id") @db.Integer()
+  advertiserId  Int          @map("advertiser_id") @db.Integer()
   title         String?      @map("title") @db.VarChar(128)
   status        EChatStatus? @default(ACTIVE) @map("status")
   createdAt     DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)

@@ -10,9 +10,9 @@ CREATE TYPE "user_type_enum" AS ENUM ('advertiser', 'publisher', 'admin');
 -- CreateTable
 CREATE TABLE "chats" (
     "id" SERIAL NOT NULL,
-    "order_id" INTEGER NOT NULL,
-    "seller_id" INTEGER NOT NULL,
-    "buyer_id" INTEGER NOT NULL,
+    "publication_id" INTEGER NOT NULL,
+    "publisher_id" INTEGER NOT NULL,
+    "advertiser_id" INTEGER NOT NULL,
     "title" VARCHAR(128),
     "status" "chat_status_enum" DEFAULT 'active',
     "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -53,7 +53,7 @@ CREATE TABLE "message_versions" (
 CREATE INDEX "chats_is_deleted_idx" ON "chats"("is_deleted");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "chats_order_id_seller_id_buyer_id_key" ON "chats"("order_id", "seller_id", "buyer_id");
+CREATE UNIQUE INDEX "chats_publication_id_publisher_id_advertiser_id_key" ON "chats"("publication_id", "publisher_id", "advertiser_id");
 
 -- CreateIndex
 CREATE INDEX "messages_is_deleted_idx" ON "messages"("is_deleted");
