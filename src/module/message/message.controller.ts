@@ -7,19 +7,19 @@ import { MessageDto } from './dto/message.dto';
 import { MessageService } from './message.service';
 import { User } from '../../common/decorators/user.decorator';
 
-@ApiTags('Сообщения')
-@Controller('app/message')
+@ApiTags('Чаты :: Сообщения')
+@Controller('chat-message')
 @ApiBearerAuth()
 export class MessageController {
 	constructor(private messageService: MessageService) {}
 
 	@Get(':message_id')
 	@ApiOperation({
-		summary: 'Сообщение по ID',
-		description: 'Получить информацию о сообщении',
+		summary: 'Сообщение чата по ID',
+		description: 'Получить информацию о сообщении чата',
 	})
 	@ApiOkResponse({
-		description: 'Информация о сообщении',
+		description: 'Информация о сообщении чата',
 		type: MessageDto,
 		isArray: false,
 		status: 200,
@@ -35,11 +35,11 @@ export class MessageController {
 	@Post()
 	@HttpCode(HttpStatus.CREATED)
 	@ApiOperation({
-		summary: 'Добавление сообщения',
+		summary: 'Добавление сообщения в чат',
 		description: 'Добавление сообщения в чат',
 	})
 	@ApiResponse({
-		description: 'Добавленное сообщение',
+		description: 'Добавленное сообщение чата',
 		type: MessageDto,
 		isArray: false,
 		status: 201,
@@ -54,8 +54,8 @@ export class MessageController {
 
 	@Put(':message_id')
 	@ApiOperation({
-		summary: 'Редактирование сообщения',
-		description: 'Редактирование сообщения',
+		summary: 'Редактирование сообщения чата',
+		description: 'Редактирование сообщения чата',
 	})
 	@ApiOkResponse({
 		description: 'Простой boolean статус действия',
@@ -74,8 +74,8 @@ export class MessageController {
 
 	@Delete(':message_id')
 	@ApiOperation({
-		summary: 'Удаление сообщения',
-		description: 'Удалить сообщения',
+		summary: 'Удаление сообщения чата',
+		description: 'Удалить сообщения чата',
 	})
 	@ApiOkResponse({
 		description: 'Простой boolean статус действия',

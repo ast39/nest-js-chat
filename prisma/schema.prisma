@@ -62,12 +62,72 @@ model MessageVersion {
   @@map("message_versions")
 }
 
-// Перечисления
+// Тикеты
+model Ticket {
+  id        Int            @id @map("id") @db.Integer()
+  assigned  Int?           @map("assigned") @db.Integer()
+  status    ETicketStatus? @default(OPEN) @map("status")
+  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime       @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  isDeleted Boolean        @default(false) @map("is_deleted") @db.Boolean()
+
+  messages TicketMessage[] @relation("TicketMessages")
+
+  @@index([isDeleted])
+  @@map("tickets")
+}
+
+// Сообщения тикетов
+model TicketMessage {
+  id        Int             @id @default(autoincrement()) @map("id") @db.Integer()
+  replyToId Int?            @map("reply_to") @db.Integer()
+  ticketId  Int             @map("ticket_id") @db.Integer()
+  userId    Int             @map("user_id") @db.Integer()
+  userType  EUserType       @default(CLIENT) @map("user_type")
+  content   String?         @map("content") @db.Text()
+  isRead    Boolean         @default(false) @map("is_read") @db.Boolean()
+  status    EMessageStatus? @default(ACTIVE) @map("status")
+  createdAt DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime        @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  isDeleted Boolean         @default(false) @map("is_deleted") @db.Boolean()
+
+  ticket  Ticket?        @relation("TicketMessages", fields: [ticketId], references: [id], onDelete: Cascade)
+  replyTo TicketMessage? @relation("TicketMessageReplies", fields: [replyToId], references: [id], onDelete: Cascade)
+
+  replies TicketMessage[]        @relation("TicketMessageReplies")
+  history TicketMessageVersion[] @relation("TicketMessageHistory")
+
+  @@index([isDeleted])
+  @@map("ticket_messages")
+}
+
+// Версии сообщений тикетов
+model TicketMessageVersion {
+  id        Int      @id @default(autoincrement()) @map("id") @db.Integer()
+  messageId Int      @map("message_id") @db.Integer()
+  content   String   @map("content") @db.Text()
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  message TicketMessage @relation("TicketMessageHistory", fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@map("ticket_message_versions")
+}
+
+// Статусы чатов
 enum EChatStatus {
   ACTIVE  @map("active")
   BLOCKED @map("blocked")
 
   @@map("chat_status_enum")
+}
+
+// Статусы тикетов
+enum ETicketStatus {
+  OPEN     @map("open")
+  PROGRESS @map("progress")
+  CLOSE    @map("close")
+
+  @@map("ticket_status_enum")
 }
 
 enum EMessageStatus {
@@ -82,6 +142,8 @@ enum EUserType {
   ADVERTISER @map("advertiser")
   PUBLISHER  @map("publisher")
   ADMIN      @map("admin")
+  SUPPORT    @map("support")
+  CLIENT     @map("client")
 
   @@map("user_type_enum")
 }

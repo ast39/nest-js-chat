@@ -6,7 +6,7 @@ import {
 	ChatNotFoundException,
 	UserNotAccessException
 } from "../exceptions/chat.exceptions";
-import { IChatCreate } from '../interfaces/chat-create.interface';
+import { IChatPreCreate } from '../interfaces/chat-pre-create.interface';
 
 @Injectable()
 export class ChatValidation {
@@ -32,7 +32,7 @@ export class ChatValidation {
 	}
 
 	// Проверка, что чат уникален
-	public async assertUniqueChat(tx: IPrismaTR, data: IChatCreate): Promise<void> {
+	public async assertUniqueChat(tx: IPrismaTR, data: IChatPreCreate): Promise<void> {
 		if (data.publicationId && data.publisherId && data.advertiserId) {
 			const chats = await this.chatRepository.index(
 				{

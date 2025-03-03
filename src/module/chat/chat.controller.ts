@@ -11,7 +11,7 @@ import { ChatCreateDto } from './dto/chat-create.dto';
 import { ChatUpdateDto } from './dto/chat-update.dto';
 
 @ApiTags('Чаты')
-@Controller('app/chat')
+@Controller('chat')
 @ApiBearerAuth()
 export class ChatController {
 	constructor(private chatService: ChatService) {}
@@ -30,7 +30,7 @@ export class ChatController {
 	public async index(
 		@User('id') userId: number,
 		@User('isAdmin') isAdmin: boolean,
-		@CurrentUrl('app/chat') url: string,
+		@CurrentUrl('chat') url: string,
 		@Query() query: ChatFilterDto,
 	): Promise<PaginationInterface<ChatDto>> {
 		return this.chatService.chatList(url, query, userId, isAdmin);
@@ -112,8 +112,8 @@ export class ChatController {
 
 	@Delete(':chat_id')
 	@ApiOperation({
-		summary: 'Удаление чата (только своего)',
-		description: 'Удалить чат (только свой)',
+		summary: 'Удаление чата',
+		description: 'Удалить чат',
 	})
 	@ApiOkResponse({
 		description: 'Простой boolean статус действия',

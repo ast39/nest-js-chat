@@ -19,7 +19,7 @@ export class ChatDto {
 			this.notRead =
 				chat.messages !== undefined && chat.messages.length > 0
 					? chat.messages.filter((message) => {
-							return message.isRead === true && message.userId !== userId;
+							return message.isRead === false && message.userId !== userId;
 						}).length
 					: 0;
 		} else {

@@ -12,6 +12,7 @@ import { ChatValidation } from '../chat/validation/chat.validation';
 import { ChatGateway } from '../../gateway/chat/chat.gateway';
 import { EUserType } from '@prisma/client';
 import { NotAccessException } from '../../common/exceptions/http-error-exception';
+import { ChatRepository } from "../chat/chat.repository";
 
 @Injectable()
 export class MessageService {
@@ -22,6 +23,7 @@ export class MessageService {
 		private chatValidator: ChatValidation,
 		@Inject(forwardRef(() => MessageVersionService))
 		private messageVersionService: MessageVersionService,
+		private chatRepository: ChatRepository,
 		private readonly chatGateway: ChatGateway,
 	) {}
 

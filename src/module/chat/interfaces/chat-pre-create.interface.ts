@@ -1,6 +1,6 @@
 import { EChatStatus } from '@prisma/client';
 
-export class IChatCreate {
+export class IChatPreCreate {
 	publicationId: number;
 	publisherId: number;
 	advertiserId: number;

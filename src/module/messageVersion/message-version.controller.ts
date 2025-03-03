@@ -8,8 +8,8 @@ import { PaginationInterface } from '../../common/interfaces/pagination.interfac
 import { MessageVersionFilterDto } from './dto/message-version.filter.dto';
 import { AdminGuard } from '../../common/guards/admin.guard';
 
-@ApiTags('История сообщений')
-@Controller('message-version')
+@ApiTags('Чаты :: История сообщений')
+@Controller('chat-message-version')
 @UseGuards(AdminGuard)
 @ApiBearerAuth()
 export class MessageVersionController {
@@ -17,17 +17,17 @@ export class MessageVersionController {
 
 	@Get()
 	@ApiOperation({
-		summary: 'Список сообщений в истории',
-		description: 'Получить список сообщений в истории по фильтрам',
+		summary: 'Список сообщений чата в истории',
+		description: 'Получить список сообщений чата в истории по фильтрам',
 	})
 	@ApiOkResponse({
-		description: 'Список сообщений в истории',
+		description: 'Список сообщений чата в истории',
 		type: MessageVersionDto,
 		isArray: true,
 		status: 200,
 	})
 	public async index(
-		@CurrentUrl('cms/message-version') url: string,
+		@CurrentUrl(' chat-message-version') url: string,
 		@Query() query: MessageVersionFilterDto,
 	): Promise<PaginationInterface<MessageVersionDto>> {
 		return await this.messageVersionService.messageVersionList(url, query);
@@ -35,11 +35,11 @@ export class MessageVersionController {
 
 	@Get(':version_id')
 	@ApiOperation({
-		summary: 'Версия сообщения по ID',
-		description: 'Получить информацию о версии сообщения',
+		summary: 'Версия сообщения чата по ID',
+		description: 'Получить информацию о версии сообщения чата',
 	})
 	@ApiOkResponse({
-		description: 'Информация о версии сообщения',
+		description: 'Информация о версии сообщения чата',
 		type: MessageVersionDto,
 		isArray: false,
 		status: 200,
@@ -51,11 +51,11 @@ export class MessageVersionController {
 	@HttpCode(HttpStatus.CREATED)
 	@Post()
 	@ApiOperation({
-		summary: 'Добавление сообщения в историю',
-		description: 'Добавление сообщения в историю',
+		summary: 'Добавление сообщения чата в историю',
+		description: 'Добавление сообщения чата в историю',
 	})
 	@ApiResponse({
-		description: 'Добавленное сообщение',
+		description: 'Добавленное сообщение чата',
 		type: MessageVersionDto,
 		isArray: false,
 		status: 201,

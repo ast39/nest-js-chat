@@ -19,10 +19,10 @@ export class AuthMiddleware implements NestMiddleware {
 			const payload = jwtService.decode(token);
 
 			// Хак для включения админа
-			// payload.isAdmin = true;
+			payload.isAdmin = true;
 
 			// Хак для авторизации под любым юзером
-			// payload.id = 5;
+			payload.id = 21;
 
 			req.user = payload;
 

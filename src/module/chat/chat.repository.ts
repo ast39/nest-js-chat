@@ -3,7 +3,7 @@ import { IPrismaTR, PrismaService } from '../../prisma';
 import { IChatFilter, IChatOrder, IChatUnique } from './interfaces/chat.prisma.interface';
 import { Chat, EChatStatus } from '@prisma/client';
 import { ChatUpdateDto } from './dto/chat-update.dto';
-import { IChatCreate } from './interfaces/chat-create.interface';
+import { IChatPreCreate } from './interfaces/chat-pre-create.interface';
 
 @Injectable()
 export class ChatRepository {
@@ -73,14 +73,14 @@ export class ChatRepository {
 	}
 
 	// Добавить чат
-	async store(data: IChatCreate, tx?: IPrismaTR): Promise<Chat> {
+	async store(data: IChatPreCreate, tx?: IPrismaTR): Promise<Chat> {
 		const prisma = tx ?? this.prisma;
 
 		return prisma.chat.create({
 			data: {
-				publicationId: +data.publicationId,
-				publisherId: +data.publisherId,
-				advertiserId: +data.advertiserId,
+				publicationId: data.publicationId,
+				publisherId: data.publisherId,
+				advertiserId: data.advertiserId,
 				title: data.title,
 				status: data.status || EChatStatus.ACTIVE,
 			},

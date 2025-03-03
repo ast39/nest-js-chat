@@ -3,7 +3,7 @@ import { IPrismaTR, PrismaService } from '../../prisma';
 import { IMessageFilter, IMessageOrder, IMessageUnique } from './interfaces/message.prisma.interface';
 import { MessageUpdateDto } from './dto/message.update.dto';
 import { MessageCreateDto } from './dto/message.create.dto';
-import { Message, EMessageStatus } from '@prisma/client';
+import { Message, EMessageStatus, EUserType } from "@prisma/client";
 import { EBooleanStatus } from '../../common/enums/boolean-status.enum';
 
 @Injectable()
@@ -47,6 +47,7 @@ export class MessageRepository {
 				chatId: +data.chatId,
 				replyToId: +data.replyTo || null,
 				userId: userId,
+				userType: data.userType ?? EUserType.ADMIN,
 				content: data.content ?? '',
 				status: data.status || EMessageStatus.ACTIVE,
 			},

@@ -11,7 +11,7 @@ import { ChatValidation } from './validation/chat.validation';
 import { ChatFilterDto } from './dto/chat-filter.dto';
 import { ChatCreateDto } from './dto/chat-create.dto';
 import { ChatUpdateDto } from './dto/chat-update.dto';
-import { IChatCreate } from './interfaces/chat-create.interface';
+import { IChatPreCreate } from "./interfaces/chat-pre-create.interface";
 import { ChatGateway } from '../../gateway/chat/chat.gateway';
 
 @Injectable()
@@ -97,7 +97,7 @@ export class ChatService {
 	async getChat(chatId: number, userId: number, isAdmin: boolean = false): Promise<ChatDto> {
 		return this.prisma.$transaction(async (tx) => {
 			const chat = await this.chatRepo.show(chatId, tx);
-			if (!chat && chat.isDeleted) {
+			if (!chat || chat.isDeleted) {
 				throw new ChatNotFoundException();
 			}
 
@@ -115,7 +115,7 @@ export class ChatService {
 	 */
 	async createChat(data: ChatCreateDto, userId: number): Promise<ChatDto> {
 		return this.prisma.$transaction(async (tx) => {
-			const repoData: IChatCreate = {
+			const repoData: IChatPreCreate = {
 				...data,
 				advertiserId: userId,
 				title: `${data.publicationId}-${data.publisherId}-${userId}`,
