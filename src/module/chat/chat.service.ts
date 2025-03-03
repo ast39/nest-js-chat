@@ -47,10 +47,10 @@ export class ChatService {
 				contains: chatFilter.title || '',
 				mode: 'insensitive',
 			},
-			orderId: chatFilter.orderId || undefined,
+			publicationId: chatFilter.publicationId || undefined,
 			status: chatFilter.status || undefined,
 			isDeleted: false,
-			...(isAdmin ? {} : { OR: [{ sellerId: userId }, { buyerId: userId }] }),
+			...(isAdmin ? {} : { OR: [{ publisherId: userId }, { advertiserId: userId }] }),
 		};
 
 		const [chats, totalRows] = await this.prisma.$transaction(async (tx) => {
@@ -117,8 +117,8 @@ export class ChatService {
 		return this.prisma.$transaction(async (tx) => {
 			const repoData: IChatCreate = {
 				...data,
-				buyerId: userId,
-				title: `${data.orderId}-${data.sellerId}-${userId}`,
+				advertiserId: userId,
+				title: `${data.publicationId}-${data.publisherId}-${userId}`,
 			};
 			await this.chatValidator.assertUniqueChat(tx, repoData);
 			const newChat = await this.chatRepo.store(repoData, tx);

@@ -14,7 +14,7 @@ export class WsChatMessageDto {
 	@IsString()
 	content: string;
 
-	@IsNotEmpty()
+	@IsOptional()
 	@IsEnum(EUserType)
 	userType?: EUserType;
 

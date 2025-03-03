@@ -62,7 +62,7 @@ export class MessageService {
 			await this.chatGateway.handleSyncMessage({
 				chatId: newMessage.chatId,
 				senderId: newMessage.userId,
-				userType: data.userType ?? EUserType.BUYER,
+				userType: data.userType ?? EUserType.ADVERTISER,
 				content: newMessage.content ?? null,
 				replyTo: newMessage.replyToId ?? null,
 			});

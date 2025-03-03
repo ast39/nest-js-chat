@@ -5,7 +5,7 @@ CREATE TYPE "chat_status_enum" AS ENUM ('active', 'blocked');
 CREATE TYPE "message_status_enum" AS ENUM ('active', 'blocked');
 
 -- CreateEnum
-CREATE TYPE "user_type_enum" AS ENUM ('buyer', 'seller', 'admin');
+CREATE TYPE "user_type_enum" AS ENUM ('advertiser', 'publisher', 'admin');
 
 -- CreateTable
 CREATE TABLE "chats" (
@@ -28,7 +28,7 @@ CREATE TABLE "messages" (
     "reply_to" INTEGER,
     "chat_id" INTEGER NOT NULL,
     "user_id" INTEGER NOT NULL,
-    "user_type" "user_type_enum" NOT NULL DEFAULT 'buyer',
+    "user_type" "user_type_enum" NOT NULL DEFAULT 'advertiser',
     "content" TEXT,
     "is_read" BOOLEAN NOT NULL DEFAULT false,
     "status" "message_status_enum" DEFAULT 'active',

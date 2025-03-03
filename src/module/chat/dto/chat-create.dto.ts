@@ -6,27 +6,27 @@ import { EChatStatus } from '@prisma/client';
 export class ChatCreateDto {
 	@IsNotEmpty()
 	@IsNumber()
-	@Expose({ name: 'orderId' })
+	@Expose({ name: 'publicationId' })
 	@ApiProperty({
-		title: 'ID заказа',
-		description: 'ID заказа',
+		title: 'ID публикации',
+		description: 'ID публикации',
 		type: Number,
 		format: 'int32',
 		required: true,
 	})
-	orderId: number;
+	publicationId: number;
 
 	@IsNotEmpty()
 	@IsNumber()
-	@Expose({ name: 'sellerId' })
+	@Expose({ name: 'publisherId' })
 	@ApiProperty({
-		title: 'ID продавца',
-		description: 'ID продавца',
+		title: 'ID паблишера',
+		description: 'ID паблишера',
 		type: Number,
 		format: 'int32',
 		required: true,
 	})
-	sellerId: number;
+	publisherId: number;
 
 	@IsOptional()
 	@IsEnum(EChatStatus)

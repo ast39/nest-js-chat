@@ -8,7 +8,7 @@ import { MessageDto } from '../../message/dto/message.dto';
 export class ChatDto {
 	public constructor(chat: IChat, userId?: number) {
 		this.id = chat.id;
-		this.orderId = chat.orderId;
+		this.publicationId = chat.publicationId;
 		this.title = chat.title;
 		if (userId) {
 			this.waiting =
@@ -48,34 +48,34 @@ export class ChatDto {
 	id: number;
 
 	@IsNumber()
-	@Expose({ name: 'orderId' })
+	@Expose({ name: 'publicationId' })
 	@ApiProperty({
-		title: 'ID заказа',
-		description: 'ID заказа',
+		title: 'ID публикации',
+		description: 'ID публикации',
 		type: Number,
 		format: 'int32',
 	})
-	orderId: number;
+	publicationId: number;
 
 	@IsNumber()
-	@Expose({ name: 'sellerId' })
+	@Expose({ name: 'publisherId' })
 	@ApiProperty({
-		title: 'ID продавца',
-		description: 'ID продавца',
+		title: 'ID паблишера',
+		description: 'ID паблишера',
 		type: Number,
 		format: 'int32',
 	})
-	sellerId: number;
+	publisherId: number;
 
 	@IsNumber()
-	@Expose({ name: 'buyerId' })
+	@Expose({ name: 'advertiserId' })
 	@ApiProperty({
-		title: 'ID продавца',
-		description: 'ID продавца',
+		title: 'ID рекламодателя',
+		description: 'ID рекламодателя',
 		type: Number,
 		format: 'int32',
 	})
-	buyerId: number;
+	advertiserId: number;
 
 	@IsString()
 	@Expose({ name: 'title' })

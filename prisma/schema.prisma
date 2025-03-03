@@ -9,19 +9,19 @@ datasource db {
 
 // Чаты
 model Chat {
-  id        Int          @id @default(autoincrement()) @map("id") @db.Integer()
-  orderId   Int          @map("order_id") @db.Integer()
-  sellerId  Int          @map("seller_id") @db.Integer()
-  buyerId   Int          @map("buyer_id") @db.Integer()
-  title     String?      @map("title") @db.VarChar(128)
-  status    EChatStatus? @default(ACTIVE) @map("status")
-  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
-  isDeleted Boolean      @default(false) @map("is_deleted") @db.Boolean()
+  id            Int          @id @default(autoincrement()) @map("id") @db.Integer()
+  publicationId Int          @map("order_id") @db.Integer()
+  publisherId   Int          @map("seller_id") @db.Integer()
+  advertiserId  Int          @map("buyer_id") @db.Integer()
+  title         String?      @map("title") @db.VarChar(128)
+  status        EChatStatus? @default(ACTIVE) @map("status")
+  createdAt     DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  isDeleted     Boolean      @default(false) @map("is_deleted") @db.Boolean()
 
   messages Message[] @relation("ChatMessages")
 
-  @@unique([orderId, sellerId, buyerId])
+  @@unique([publicationId, publisherId, advertiserId])
   @@index([isDeleted])
   @@map("chats")
 }
@@ -32,7 +32,7 @@ model Message {
   replyToId Int?            @map("reply_to") @db.Integer()
   chatId    Int             @map("chat_id") @db.Integer()
   userId    Int             @map("user_id") @db.Integer()
-  userType  EUserType       @default(BUYER) @map("user_type") // Тип пользователя (покупатель/продавец/админ)
+  userType  EUserType       @default(ADVERTISER) @map("user_type") // Тип пользователя (покупатель/продавец/админ)
   content   String?         @map("content") @db.Text()
   isRead    Boolean         @default(false) @map("is_read") @db.Boolean()
   status    EMessageStatus? @default(ACTIVE) @map("status")
@@ -79,9 +79,9 @@ enum EMessageStatus {
 
 // Тип пользователя в чате
 enum EUserType {
-  BUYER  @map("buyer")
-  SELLER @map("seller")
-  ADMIN  @map("admin")
+  ADVERTISER @map("advertiser")
+  PUBLISHER  @map("publisher")
+  ADMIN      @map("admin")
 
   @@map("user_type_enum")
 }

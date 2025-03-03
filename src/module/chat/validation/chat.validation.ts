@@ -26,20 +26,20 @@ export class ChatValidation {
 		if (!chat) {
 			throw new ChatNotFoundException();
 		}
-		if (chat.sellerId !== userId && chat.buyerId !== userId && !isAdmin) {
+		if (chat.publisherId !== userId && chat.advertiserId !== userId && !isAdmin) {
 			throw new UserNotAccessException();
 		}
 	}
 
 	// Проверка, что чат уникален
 	public async assertUniqueChat(tx: IPrismaTR, data: IChatCreate): Promise<void> {
-		if (data.orderId && data.sellerId && data.buyerId) {
+		if (data.publicationId && data.publisherId && data.advertiserId) {
 			const chats = await this.chatRepository.index(
 				{
 					where: {
-						orderId: data.orderId,
-						sellerId: data.sellerId,
-						buyerId: data.buyerId,
+						publicationId: data.publicationId,
+						publisherId: data.publisherId,
+						advertiserId: data.advertiserId,
 					},
 				},
 				tx,

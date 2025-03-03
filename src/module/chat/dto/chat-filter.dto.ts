@@ -8,15 +8,15 @@ export class ChatFilterDto extends PaginationDto {
 	@IsOptional()
 	@IsNumber()
 	@Transform(({ value }) => (value !== undefined && value !== null ? parseInt(value, 10) : undefined))
-	@Expose({ name: 'orderId' })
+	@Expose({ name: 'publicationId' })
 	@ApiProperty({
-		title: 'ID заказа',
-		description: 'ID заказа',
+		title: 'ID публикации',
+		description: 'ID публикации',
 		type: Number,
 		format: 'int32',
 		required: false,
 	})
-	orderId?: number;
+	publicationId?: number;
 
 	@IsOptional()
 	@IsString()

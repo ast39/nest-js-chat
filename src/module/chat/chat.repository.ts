@@ -78,9 +78,9 @@ export class ChatRepository {
 
 		return prisma.chat.create({
 			data: {
-				orderId: +data.orderId,
-				sellerId: +data.sellerId,
-				buyerId: +data.buyerId,
+				publicationId: +data.publicationId,
+				publisherId: +data.publisherId,
+				advertiserId: +data.advertiserId,
 				title: data.title,
 				status: data.status || EChatStatus.ACTIVE,
 			},

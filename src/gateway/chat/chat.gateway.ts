@@ -92,7 +92,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		this.updateUserStatus(this.typingUsers, { chatId: data.chatId, userId: accountId }, 'add');
 		this.server.to(chatId).emit('userTyping', { ...data, userId: accountId });
 		console.log(`User started typing: Account=${accountId}, Chat=${data.chatId}`);
-		return { event: 'startTyping', data: { ...data, userId: accountId } };
+		return { event: 'userTyping', data: { ...data, userId: accountId } };
 	}
 
 	// Перестать печатать
@@ -105,7 +105,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		this.updateUserStatus(this.typingUsers, { chatId: data.chatId, userId: accountId }, 'remove');
 		this.server.to(chatId).emit('userStopTyping', { ...data, userId: accountId });
 		console.log(`User stopped typing: Account=${accountId}, Chat=${data.chatId}`);
-		return { event: 'stopTyping', data: { ...data, userId: accountId } };
+		return { event: 'userStopTyping', data: { ...data, userId: accountId } };
 	}
 
 	// Отправить сообщение
