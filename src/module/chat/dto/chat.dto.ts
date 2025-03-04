@@ -1,4 +1,4 @@
-import { IsDate, IsEnum, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsDate, IsEnum, IsNumber, IsString, ValidateNested } from "class-validator";
 import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { EChatStatus } from '@prisma/client';
@@ -86,7 +86,7 @@ export class ChatDto {
 	})
 	title: string;
 
-	@IsString()
+	@IsBoolean()
 	@Expose({ name: 'waiting' })
 	@ApiProperty({
 		title: 'Метка ожидания ответа от меня',

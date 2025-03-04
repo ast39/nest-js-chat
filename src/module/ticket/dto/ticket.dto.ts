@@ -1,4 +1,4 @@
-import { IsDate, IsEnum, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsDate, IsEnum, IsNumber, IsString, ValidateNested } from "class-validator";
 import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { ETicketStatus, EUserType } from "@prisma/client";
@@ -83,7 +83,7 @@ export class TicketDto {
 	})
 	notRead: number = 0;
 
-	@IsString()
+	@IsBoolean()
 	@Expose({ name: 'waiting' })
 	@ApiProperty({
 		title: 'Метка ожидания ответа от меня',
