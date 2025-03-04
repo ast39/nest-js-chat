@@ -85,12 +85,12 @@ export class TicketGateway extends BaseGateway {
 	async handleSyncMessage(@MessageBody() data: WsTicketMessageDto, @ConnectedSocket() client?: Socket) {
 		if (client) {
 			const accountId = await this.validateClient(client);
-			if (!accountId || accountId !== data.userId) return;
+			if (!accountId || accountId !== data.senderId) return;
 		}
 
 		const ticketId = data.ticketId.toString();
 		this.server.to(ticketId).emit('syncMessage', data);
-		console.log(`Message sent: Ticket=${data.ticketId}, UserType=${data.userType}, Sender=${data.userId}`);
+		console.log(`Message sent: Ticket=${data.ticketId}, UserType=${data.userType}, Sender=${data.senderId}`);
 		return { event: 'syncMessage', data, client };
 	}
 

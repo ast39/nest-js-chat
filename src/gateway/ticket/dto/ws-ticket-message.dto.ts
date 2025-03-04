@@ -8,7 +8,7 @@ export class WsTicketMessageDto {
 
 	@IsNotEmpty()
 	@IsNumber()
-	userId: number;
+	senderId: number;
 
 	@IsNotEmpty()
 	@IsString()
