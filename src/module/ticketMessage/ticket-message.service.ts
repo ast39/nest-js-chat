@@ -109,7 +109,7 @@ export class TicketMessageService {
 			// Событие в сокете о новом сообщении
 			await this.ticketGateway.handleSyncMessage({
 				ticketId: userId,
-				userId: newTicketMessage.userId,
+				senderId: newTicketMessage.userId,
 				userType: data.userType ?? EUserType.CLIENT,
 				content: newTicketMessage.content ?? null,
 				replyTo: newTicketMessage.replyToId ?? null,
