@@ -1,12 +1,12 @@
 import { IsBoolean, IsDate, IsEnum, IsNumber, IsString, ValidateNested } from "class-validator";
 import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { ETicketStatus, EUserType } from "@prisma/client";
 import { ITicket } from '../interfaces/ticket.prisma.interface';
 import { TicketMessageDto } from '../../ticketMessage/dto/ticket-message.dto';
+import { ETicketStatus } from "@prisma/client";
 
 export class TicketDto {
-	public constructor(ticket: ITicket, userId?: number, userType?: EUserType) {
+	public constructor(ticket: ITicket, userId?: number) {
 		this.id = ticket.id;
 		this.status = ticket.status;
 		this.created = ticket.createdAt;
