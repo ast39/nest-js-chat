@@ -28,6 +28,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${OUTER_APP_PORT}:${APP_PORT}"
+      - "${SOCKET_PORT}:${SOCKET_PORT}"
     env_file:
       - .env
     environment:
