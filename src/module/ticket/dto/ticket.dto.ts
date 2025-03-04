@@ -63,7 +63,7 @@ export class TicketDto {
 		description: 'Статус тикета',
 		enum: ETicketStatus,
 	})
-	status?: ETicketStatus;
+	status: ETicketStatus;
 
 	@IsDate()
 	@Expose({ name: 'created' })

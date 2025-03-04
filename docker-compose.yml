@@ -12,7 +12,7 @@ services:
     ports:
       - "${OUTER_POSTGRES_PORT}:${POSTGRES_PORT}"
     volumes:
-      - pg_data_14:/var/lib/postgresql/data
+      - pg_data_14a:/var/lib/postgresql/data
     networks:
       - app-network
     healthcheck:
@@ -43,7 +43,7 @@ services:
       - /app/node_modules
 
 volumes:
-  pg_data_14: {}
+  pg_data_14a: {}
 
 networks:
   app-network:
